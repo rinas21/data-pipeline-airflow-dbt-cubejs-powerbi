@@ -30,3 +30,26 @@ graph LR
         E -- Triggers & Monitors --> B
         E -- Triggers & Monitors --> C
     end
+
+```
+```mermaid
+
+graph LR
+    A([csv data]) --> B(load data)
+    A --> C(transform data)
+
+    airflow([Apache Airflow])
+    subgraph Data Source
+        B
+        C
+    end
+    G([dbt])
+    C --> G
+    airflow <--> G
+    G --> E([transformed data])
+    B --> D([raw data])
+    subgraph Data Warehouse
+        D
+        E
+    end
+```
