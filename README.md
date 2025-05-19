@@ -53,3 +53,27 @@ graph LR
         E
     end
 ```
+
+```mermaid
+graph LR
+    A([Data]) --> B(load data)
+    A --> C(transform data)
+
+    airflow([Apache Airflow])
+    subgraph Data Source
+        B
+        C
+    end
+    G([dbt])
+    C --> G
+    airflow <--> G
+    G --> E([transformed data])
+    B --> D([raw data])
+    E --> F([CubeJs API])
+    F --> P([Power BI])
+
+    subgraph Data Warehouse
+        D
+        E
+    end
+```
