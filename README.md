@@ -77,3 +77,36 @@ graph LR
         E
     end
 ```
+
+
+```mermaid
+graph LR
+    source[Data Source]
+    airbyte[Airbyte]
+    postgres_raw[Postgres Raw Data]
+
+    source --> airbyte --> postgres_raw
+    postgres_raw --> C[transform data]
+
+    cron_airflow[Cron Job / Apache Airflow]
+
+    subgraph Data Source and Storage
+        postgres_raw
+        C
+    end
+
+    G[dbt]
+    C --> G
+    cron_airflow -- automate --> G
+
+    G --> E[transformed data]
+
+    E --> F[CubeJs API]
+    cron_airflow -- automate --> F
+    F --> P[Power BI]
+
+    subgraph Data Warehouse
+        E
+    end
+
+```
